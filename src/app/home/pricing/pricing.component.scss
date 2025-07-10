@@ -1,0 +1,143 @@
+//title section
+.title {
+  text-align: center;
+  margin-top: 20px;
+}
+//pricing section distance from title
+.pricing-section {
+  padding: 30px;
+}
+//boxes alignment
+.pricing-container {
+  display: flex;
+  justify-content: center;
+  gap: 0px;
+  align-items: center;
+}
+
+.pricing-box1, .pricing-box3, .pricing-box2 {
+  width: 360px;
+  height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background-color: #fff;
+  transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.pricing-box2 {
+  height: 440px;
+  position: relative;  
+}
+
+.best-value-banner {
+  height: 32px;
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffc107;
+  color: #333;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.tier-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.pricing-box2 .tier-title {
+  padding-top: 20px; 
+}
+
+//hover
+.pricing-box1:hover, .pricing-box2:hover, .pricing-box3:hover {
+  border-color: #007bff;
+}
+//change active color
+.pricing-box1.active, .pricing-box3.active, .pricing-box2.active {
+  border: 3px solid #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+//selected highlight
+.selected {
+  border: 2px solid #007bff;
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.5);
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.dollar {
+  font-size: 1.2rem;
+  vertical-align: top;
+  margin-right: 2px;
+}
+
+.tax {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.month {
+  font-size: 1.2rem;
+  padding-top: 0px;
+  text-align: center;
+  margin-top: -20px;
+}
+
+.decorative-line {
+  width: 80%;
+  height: 1px;
+  background-color: #ccc;
+  margin: 6px auto 22px auto;
+  align-items: center;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.feature-list li {
+  position: relative;           /* For absolute ::before */
+  padding-left: 22px;           /* Space for the bullet */
+  //display: inline-block;               /* Block ensures full width */
+  max-width: 240px;
+  margin: 0 auto 16px auto;     /* Center horizontally + spacing */
+  text-align: left;
+  line-height: 1.4;
+}
+
+.feature-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  margin-left: 0px;
+  top: -2px;
+  font-size: 1.3rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+.select-now{
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}

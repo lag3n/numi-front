@@ -1,0 +1,204 @@
+
+<app-topcontainer></app-topcontainer>
+<div class="container-fluid">
+    <h2 class="mt-4 mb-4">Admin Dashboard</h2>
+    
+    <!-- Tabs for different admin sections -->
+    <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">User Management</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="access-tab" data-toggle="tab" href="#access" role="tab" aria-controls="access" aria-selected="false">Access Statistics</a>
+        </li>
+    </ul>
+    
+    <!-- Tab content -->
+    <div class="tab-content" id="adminTabContent">
+        <!-- User Management Tab -->
+        <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+            <div class="row">
+                <!-- User List -->
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">User List</h5>
+                        </div>
+                        <div class="card-body">
+                            <div *ngIf="userLoading" class="text-center p-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            
+                            <div class="table-responsive" *ngIf="!userLoading">
+                                <table class="table table-striped table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Email</th>
+                                            <th>Username</th>
+                                            <th>Credits</th>
+                                            <th>Subscription</th>
+                                            <th>Created</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let user of users | slice:userSkip:(userSkip + pageSize)">
+                                            <td>{{user.id}}</td>
+                                            <td>{{user.email}}</td>
+                                            <td>{{user.username}}</td>
+                                            <td>{{user.credits}}</td>
+                                            <td>{{user.subscription_plan || 'None'}}</td>
+                                            <td>{{user.created_at | date:'short'}}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" (click)="selectUser(user)">
+                                                    View/Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <!-- Simple pagination -->
+                                <nav aria-label="User pagination">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item" [class.disabled]="userSkip === 0">
+                                            <a class="page-link" href="javascript:void(0)" (click)="userSkip = Math.max(0, userSkip - pageSize); loadUserPage()">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li class="page-item" [class.disabled]="userSkip + pageSize >= users.length">
+                                            <a class="page-link" href="javascript:void(0)" (click)="userSkip = userSkip + pageSize; loadUserPage()">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Details -->
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">User Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div *ngIf="!selectedUser" class="text-center p-5">
+                                <p class="text-muted">Select a user to view and edit details</p>
+                            </div>
+                            
+                            <div *ngIf="selectedUser">
+                                <div class="mb-4">
+                                    <h4>{{selectedUser.username}}</h4>
+                                    <p class="text-muted">{{selectedUser.email}}</p>
+                                </div>
+                                
+                                <div class="card mb-3">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">Credit Balance</h6>
+                                        <button *ngIf="!editingCredits" class="btn btn-sm btn-outline-primary" (click)="startEditingCredits()">
+                                            Edit
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div *ngIf="!editingCredits" class="h3 text-center">{{selectedUser.credits}}</div>
+                                        <div *ngIf="editingCredits" class="form-group">
+                                            <input type="number" class="form-control" [(ngModel)]="newCreditValue" min="0">
+                                            <div class="d-flex justify-content-end mt-2">
+                                                <button class="btn btn-sm btn-secondary mr-2" (click)="cancelEditingCredits()">Cancel</button>
+                                                <button class="btn btn-sm btn-success" (click)="saveCredits()">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-3">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">Subscription Plan</h6>
+                                        <button *ngIf="!editingSubscription" class="btn btn-sm btn-outline-primary" (click)="startEditingSubscription()">
+                                            Edit
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div *ngIf="!editingSubscription" class="h4 text-center text-capitalize">
+                                            {{selectedUser.subscription_plan || 'None'}}
+                                        </div>
+                                        <div *ngIf="editingSubscription" class="form-group">
+                                            <select class="form-control" [(ngModel)]="newSubscriptionValue">
+                                                <option *ngFor="let plan of subscriptionPlans" [value]="plan.value">{{plan.text}}</option>
+                                            </select>
+                                            <div class="d-flex justify-content-end mt-2">
+                                                <button class="btn btn-sm btn-secondary mr-2" (click)="cancelEditingSubscription()">Cancel</button>
+                                                <button class="btn btn-sm btn-success" (click)="saveSubscription()">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Account Info</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-5 text-muted">User ID:</div>
+                                            <div class="col-7">{{selectedUser.id}}</div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-5 text-muted">Created:</div>
+                                            <div class="col-7">{{selectedUser.created_at | date:'medium'}}</div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-5 text-muted">Last Updated:</div>
+                                            <div class="col-7">{{selectedUser.updated_at | date:'medium'}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Access Statistics Tab -->
+        <div class="tab-pane fade" id="access" role="tabpanel" aria-labelledby="access-tab">
+            <div class="row mb-4">
+                <div class="col-4 div-count">
+                    <span>Today: </span>&nbsp;&nbsp;&nbsp;<span class="span-count" style="color: green;">{{userAccessCount.todayCount}}</span>
+                </div>
+                <div class="col-4 div-count">
+                    <span>Current Month: </span>&nbsp;&nbsp;&nbsp;<span class="span-count" style="color: blueviolet">{{userAccessCount.currentMonthCount}}</span>
+                </div>
+                <div class="col-4 div-count">
+                    <span>Total: </span>&nbsp;&nbsp;&nbsp;<span class="span-count">{{userAccessCount.totalCount}}</span>
+                </div>
+            </div>
+            <div style="padding: 10px;">
+                <kendo-grid [data]="gridView" [height]="500" [pageSize]="pageSize" [skip]="skip"
+                    [pageable]="{ buttonCount: 5, info: true, type: 'numeric', pageSizes: true, previousNext: true }" 
+                    [sortable]="true" [filterable]="false" 
+                    [groupable]="false" [reorderable]="true" [resizable]="true" [loading]="loading" (pageChange)="pageChange($event)">
+                
+                <kendo-grid-column field="ipAddress" title="User IP Address" [width]="150"></kendo-grid-column>
+                <kendo-grid-column field="accessToday" title="Today Access" [width]="150"></kendo-grid-column>
+                <kendo-grid-column field="accessCount" title="Total Access" [width]="150"></kendo-grid-column>
+                <kendo-grid-column field="lastAccessDateTime" title="User Last Access DateTime" [width]="150"></kendo-grid-column>
+
+                <kendo-grid-column field="city" title="City" [width]="150"></kendo-grid-column>
+                <kendo-grid-column field="province" title="State/Province" [width]="150"></kendo-grid-column>
+                <kendo-grid-column field="country" title="Country" [width]="150"></kendo-grid-column>
+
+                <kendo-grid-column field="latitude" title="Latitude" [width]="150"></kendo-grid-column>
+                <kendo-grid-column field="longitude" title="Longitude" [width]="150"></kendo-grid-column>
+
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>

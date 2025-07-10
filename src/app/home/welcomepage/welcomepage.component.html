@@ -1,0 +1,41 @@
+<!-- welcomepage.component.html -->
+<div class="welcome-page-container">
+  <app-topcontainer></app-topcontainer>
+
+  <main class="container px-5">
+    <div class="row h-100 align-items-center justify-content-center">
+      <div class="col-8">
+        <!-- Coin Carousel -->
+        @if (coinImages) {
+          <ngb-carousel>
+            @for (image of coinImages; track image.src) {
+              <ng-template ngbSlide>
+                <div class="coin-img-wrapper">
+                  <img [src]="image.src" [alt]="image.title" />
+                </div>
+              </ng-template>
+            }
+          </ngb-carousel>
+        }
+        <h1 class="text-center display-4 fw-bold mt-3">Presentation Made Easy.</h1>
+      </div>
+      
+      <div class="col-4">
+        <div class="bg-light p-4 rounded text-center">
+          <h2 class="mb-3 text-center">Format Your Coins</h2>
+          <p class="mb-4">
+            At NumisPics, we believe that a picture is worth a thousand words. That is why we set out 
+            to help coin collectors best display their collection. Simply upload an obverse and 
+            reverse picture taken flat, and watch as our program professionally formats your coin.
+            <span style="color: white" (click)="navigateToUserAccess()">User</span>
+          </p>
+          <div class="text-center">
+            <button class="btn btn-primary btn-lg" (click)="navigateToDetail()">Try it Today</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <app-bottomcontainer></app-bottomcontainer>
+</div>

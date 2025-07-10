@@ -1,0 +1,429 @@
+  // detailpage.component.scss
+  .main-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+  
+  .page-container {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    flex: 1;
+    position: relative;
+    min-height: calc(100vh - 60px); // Adjust based on your header height
+    width: 100%;
+  }
+  
+  .content-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: center;
+    
+    .row {
+      width: 100%;
+      margin: 0;
+      justify-content: center;
+    }
+  }
+  
+  // Update upload section to maintain its position
+  .upload-section {
+    max-width: 500px;
+    margin: 0 auto;
+    // Remove any margins that might affect centering
+    position: relative;
+  }
+  
+  .upload-box {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background: white;
+    
+    .placeholder-img {
+      width: 60px;
+      height: 60px;
+      background-color: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      img {
+        width: 30px;
+        height: 30px;
+        opacity: 0.5;
+      }
+    }
+  }
+  
+  
+  // Modal specific styles
+  .modal-header {
+    &.bg-danger {
+      border-bottom: none;
+    }
+  }
+  
+  .bg-danger-subtle {
+    background-color: #fff5f5;
+  }
+  
+  .text-danger {
+    color: #dc3545 !important;
+  }
+  
+  .modal-body {
+    &.bg-danger-subtle {
+      p {
+        color: #dc3545;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+
+  :host ::ng-deep {
+    .modal-dialog {
+      max-width: 1400px;  // Even wider modal
+      width: 95%;
+    }
+
+    .modal-content {
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+  
+    .modal-header {
+      padding: 1.5rem 1.5rem 0.5rem;
+  
+      .modal-title {
+        color: #333;
+        font-size: 1.75rem;
+      }
+  
+      .btn-close {
+        padding: 1.5rem;
+        margin: -1rem -1rem -1rem auto;
+      }
+    }
+  
+    .modal-body {
+      padding: 1rem 1.5rem 1.5rem;
+  
+      p, .tips-list {
+        color: #666;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+  
+      .tips-list {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-bottom: 0;
+  
+        li {
+          padding-left: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  .preview-image-container {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    
+    .preview-image {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      background-color: #ffffff;  // Default white background
+      
+      img {
+        width: 30px;
+        height: 30px;
+        opacity: 0.5;
+        mix-blend-mode: multiply;  // This helps with background color blending
+      }
+    }
+  }
+  
+  :host ::ng-deep {
+    .image-preview-modal {
+      .modal-content {
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .modal-title {
+        font-size: 2rem;
+        font-weight: 500;
+      }
+      
+      .btn-success {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+        
+        &:hover {
+          background-color: #27ae60;
+          border-color: #27ae60;
+        }
+      }
+    }
+  }
+
+  .btn-link {
+    text-decoration: none;
+    font-size: inherit;
+    
+    &:hover {
+      text-decoration: none;
+    }
+  
+    .bi-info-circle-fill {
+      font-size: 1.1em;
+    }
+  }
+
+  .placeholder-img {
+    width: 100px;  // Set a fixed width
+    height: 100px; // Set a fixed height to match width
+    flex-shrink: 0; // Prevent flex shrinking
+  }
+
+  .boder-img {
+    border: 1px solid #a0a0a0;
+  }
+
+  .btn-edit {
+    background-color: #6c757d;  // Bootstrap gray
+    border-color: #6c757d;
+    color: white;
+    
+    &:hover {
+      background-color: #5a6268;  // Darker gray on hover
+      border-color: #5a6268;
+    }
+    
+    &:focus {
+      box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25);  // Gray focus ring
+    }
+    
+    &:active {
+      background-color: #545b62;  // Even darker gray when clicked
+      border-color: #545b62;
+    }
+  }
+
+  .btn-switch {
+    background-color: #5bc0de;  // Light blue
+    border-color: #5bc0de;
+    color: white;
+    
+    &:hover {
+      background-color: #31b0d5;  // Slightly darker light blue on hover
+      border-color: #31b0d5;
+    }
+    
+    &:focus {
+      box-shadow: 0 0 0 0.25rem rgba(91, 192, 222, 0.25);  // Light blue focus ring
+    }
+    
+    &:active {
+      background-color: #269abc;  // Even darker light blue when clicked
+      border-color: #269abc;
+    }
+  }
+
+  .settings-container {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 2rem;
+    
+    .format-preview {
+      padding: 1rem;
+      max-height: 300px;  // Reduced height
+      overflow-y: auto;
+    }
+    
+    .preview-image {
+      border: 1px solid #dee2e6;
+      border-radius: 0.375rem;
+      padding: 1rem;
+      height: 300px;  // Reduced height
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+
+  .form-range {
+    width: 100%;
+  }
+
+  .form-control-color {
+    width: 3rem;
+    height: 2rem;
+    padding: 0.2rem;
+  }
+  
+  ::ng-deep .advanced-settings-modal {
+    .modal-dialog {
+      max-width: 900px;
+      
+      .col-7 {
+        padding: 5px;  // Match card-body padding
+        
+        .preview-frame {
+          width: 100%;
+          height: 280px;
+          border: 1px solid #a0a0a0;
+          margin-bottom: 1rem;
+          
+          .preview-content {
+            width: 100%;
+            height: 100%;
+            padding: 5px;  // Match card-body padding
+            
+            .coin-image-large {
+              background-color: var(--preview-bg-color, #ffffff);
+              position: relative;
+              overflow: visible;
+              
+              .row {
+                margin: 0;
+                height: 100%;
+                overflow: visible;
+              }
+
+              .coin-image-small {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: visible;
+                
+                img {
+                  max-height: 100%;
+                  width: auto;
+                  object-fit: contain;
+                  transition: transform 0.3s ease;
+                  mix-blend-mode: normal;
+                  position: relative;
+                  z-index: 1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .card {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .image-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .image-column {
+    flex: 1;
+    min-width: 140px; // Minimum width for each column
+    
+    &.composite {
+      flex: 2; // Takes full width in top row
+      min-width: 280px;
+    }
+  }
+
+  .coin-container {
+    position: relative;
+    background-color: var(--preview-bg-color, #ffffff);
+    border: 1px solid #a0a0a0;
+    aspect-ratio: 1; // Keep square shape
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+
+    &.composite {
+      aspect-ratio: 2/1; // Double width for composite
+    }
+  }
+
+  .coin-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+  }
+
+  /* Responsive layout */
+  @media screen and (max-width: 600px) {
+    .image-column {
+      flex: 100%;
+      max-width: 100%;
+    }
+    
+    .coin-container {
+      margin-bottom: 8px;
+    }
+  }
+
+  .image-box {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background: white;
+    padding: 0;
+    height: 280px;
+    
+    .coin-image-container {
+      width: 100%;
+      height: 100%;
+      background-color: var(--preview-bg-color, #ffffff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      
+      img {
+        max-height: 100%;
+        width: auto;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        mix-blend-mode: normal;
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+  
+  .wide-modal {
+    min-height: 300px;  // Reduced height
+  }
+  

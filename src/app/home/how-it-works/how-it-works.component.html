@@ -1,0 +1,64 @@
+<app-topcontainer></app-topcontainer>
+<section class="bg-white py-4 text-left">
+  <div class="container">
+    <h1 class="display-4 fw-bold">How NumisPics Works</h1>
+    <p class="lead mt-3">Transform your coin photos into professional-quality images in seconds.</p>
+    <div class="black-accent-line"></div>
+    <!-- <a routerLink="/try-now" class="btn btn-primary btn-lg mt-4">Try It Now</a>
+    <a routerLink="/business-pricing" class="btn btn-secondary btn-lg mt-4">Business Pricing</a> -->
+  </div>
+</section>
+<section class="container py-5">
+  <div class="row text-center">
+    <div class="col-md-3">
+      <img src="/assets/upload-icon.png" class="mb-3" width="80" alt="Upload Icon">
+      <h3>Step 1: Upload</h3>
+      <p>Choose your obverse and reverse coin photos. Select or drag and drop from your device.</p>
+    </div>
+    <div class="col-md-3">
+      <img src="/assets/ai-icon.png" class="mb-3" width="80" alt="AI Processing Icon">
+      <h3>Step 2: AI Enhances</h3>
+      <p>Our program automatically crops and cuts the uploaded pictures, as well as generates a composite image consisting of the obverse and reverse.</p>
+    </div>
+    <div class="col-md-3">
+      <img src="/assets/edit-icon.png" class="mb-3" width="80" alt="AI Processing Icon">
+      <h3>Step 3: Edits</h3>
+      <p>After NumisPics completes its process, review the processed images to make edits. The obverse and reverse images can be swapped and the brightness, contrast and margins can all be edited and saved as presets for next time.</p>
+    </div>
+    <div class="col-md-3">
+      <img src="/assets/download-icon.png" class="mb-3" width="80" alt="Download Icon">
+      <h3>Step 4: Download</h3>
+      <p>Click the "Download All" button to save the processed images and get your ready-to-use, professional coin images for listings, catalogs, or your collection.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bg-light py-5">
+  <div class="container text-center">
+    <h2 class="display-4 fw-bold see-difference-title">See the Difference</h2>
+
+    <div class="comparison-row">
+      <div class="img-box">
+        <h5>Original Photo</h5>
+        <img [src]="beforeAfterPairs[currentIndex].before" alt="Before Image" class="comparison-img" />
+      </div>
+
+      <div class="img-box">
+        <h5>Enhanced by NumisPics</h5>
+        <img [src]="beforeAfterPairs[currentIndex].after" alt="After Image" class="comparison-img" />
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button class="btn btn-secondary" (click)="prevSlide()">Prev</button>
+      <button class="btn btn-secondary" (click)="nextSlide()">Next</button>
+    </div>
+  </div>
+</section>
+
+<section class="text-center py-5">
+  <div class="container">
+    <h2 class="display-6 fw-bold">Ready to Elevate Your Coin Photos?</h2>
+    <a routerLink="/try-now" class="btn btn-primary btn-lg">Start Now</a>
+  </div>
+</section>

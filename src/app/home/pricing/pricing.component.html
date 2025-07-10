@@ -1,0 +1,30 @@
+<app-topcontainer></app-topcontainer>
+<section class="title">
+  <h1 class="page-heading display-4 fw-bold">Instant Numismatic Pictures</h1>
+</section>
+<section class="pricing-section">
+  <div class="pricing-container">
+    <div *ngFor="let tier of pricingTiers; let i = index" 
+         class="pricing-box{{i + 1}}" 
+         [class.selected]="selectedBox === (i + 1)" 
+         (click)="selectBox($event, i + 1)">
+      <div *ngIf="tier.isPopular" class="best-value-banner">Best Value</div>
+      <h3 class="tier-title">{{tier.name}}</h3>
+      <div class="price">
+        <span class="dollar">$</span>{{tier.price}}<span class="tax">(plus tax)</span>
+      </div>
+      <p class="month"> /month</p>
+      <div class="decorative-line"></div>
+      <ul class="feature-list">
+        <li *ngFor="let feature of tier.features">
+          <span class="feature-text">{{feature}}</span>
+        </li>
+      </ul>
+      <button class="select-now" 
+              (click)="checkout(tier.priceId)"
+              [disabled]="isLoading">
+        {{isLoading ? 'Processing...' : 'Select Now'}}
+      </button>
+    </div>
+  </div>
+</section>

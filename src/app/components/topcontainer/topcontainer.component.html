@@ -1,0 +1,37 @@
+<!-- topcontainer.component.html -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+  <div class="container">
+    <!-- Left section -->
+    <div class="d-flex align-items-center">
+      <a class="navbar-brand me-4" href="#">
+        <img src="assets/logo.png" alt="JDPZ Logo" width="40" height="40">
+      </a>
+      <a class="nav-link" [routerLink]="'/how-it-works'">How it Works</a>
+      <!-- Show Editor link only when logged in -->
+      <a *ngIf="isLoggedIn" class="nav-link ms-3" [routerLink]="'/detail'">Editor</a>
+    </div>
+
+    <!-- Right section -->
+    <div class="d-flex align-items-center gap-4">
+      <div class="nav-links me-3">
+        <a class="nav-link d-inline-block me-4" [routerLink]="'/pricing'">Pricing</a>
+        <a class="nav-link d-inline-block" [routerLink]="'/contact-us'">Contact Us</a>
+      </div>
+      
+      <!-- Show these buttons when NOT logged in -->
+      <div *ngIf="!isLoggedIn" class="d-flex gap-2">
+        <button class="btn btn-light rounded-pill px-4" [routerLink]="'/login'">Login</button>
+        <button class="btn btn-light rounded-pill px-4" [routerLink]="'/signup'">Signup</button>
+      </div>
+      
+      <!-- Show user info when logged in -->
+      <div *ngIf="isLoggedIn" class="d-flex align-items-center gap-3">
+        <div class="d-flex flex-column align-items-end me-2">
+          <span class="fw-bold text-primary">{{ currentUser?.email }}</span>
+          <span class="text-muted small">Credits: {{ currentUser?.credits || 0 }}</span>
+        </div>
+        <button class="btn btn-outline-danger rounded-pill px-4" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>

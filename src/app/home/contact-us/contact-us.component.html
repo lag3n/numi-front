@@ -1,0 +1,23 @@
+<app-topcontainer></app-topcontainer>
+<section class="contact-section">
+  <h1 class="page-heading display-4 fw-bold">Contact Us</h1>
+</section>
+
+<!--FORM section-->
+<section>
+  <div class="contact-form-container">
+    <h2>Please Send Us a Message</h2>
+    <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+      <input type="text" name="name" placeholder="Your Name" ngModel required>
+      <input type="email" name="email" placeholder="Your Email" ngModel required>
+      <input type="text" name="subject" placeholder="Subject" ngModel required>
+      <textarea name="details" placeholder="Message" ngModel required></textarea>
+
+      <!-- Optional File Upload -->
+      <small class="text-muted">Optional:</small><br>
+      <input type="file" name="upload">
+
+      <button type="submit">{{ isSent ? 'Sent' : 'Send' }}</button>
+    </form>
+  </div>
+</section>

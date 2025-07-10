@@ -1,0 +1,45 @@
+.black-accent-line {
+  float: left;
+  width: 68%;              /* Control how long you want the line */
+  height: 4px;             /* Thickness */
+  background-color: #5C5C5C;   /* Color */
+  margin: 8px auto;        /* Center it under the text */
+  border-radius: 2px;      /* Optional: rounded edges */
+}
+
+.see-difference-title {
+  margin-bottom: 40px; /* Decrease this value to move it closer to the comparison section */
+}
+.comparison-row {
+  display: flex;
+  justify-content: center;       
+  align-items: flex-start;
+  gap: 80px;                      /* Nice wide gap */
+}
+
+.img-box {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 500px;              /* Increased width */
+  text-align: center;
+}
+
+.comparison-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;        /* Centers the buttons */
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.button-container .btn {
+  padding: 10px 24px;
+  font-size: 16px;
+}

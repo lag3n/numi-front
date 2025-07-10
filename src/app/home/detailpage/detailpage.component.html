@@ -1,0 +1,312 @@
+<!-- detailpage.component.html -->
+<div class="main-container">
+    <app-topcontainer></app-topcontainer>
+    <div class="page-container">
+        <div class="content-wrapper row">
+          <div class="col-12 row g-4" style="margin: 0;">
+            <!-- Left Side - Upload Area  -->
+            <div class="col-md-6" style="margin: 0;">
+              <div class="upload-section">
+                <!-- Upload Box 1 -->
+                <div class="upload-box mb-3">
+                  <div class="d-flex align-items-center p-3">
+                    <div class="placeholder-img me-3">
+                      <img src="assets/placeholder.png" alt="placeholder" class="img-fluid">
+                    </div>
+                    <div class="upload-content flex-grow-1">
+                      <p class="mb-2 text-muted small">Please upload obverse image, size less than 100KB</p>
+                      <div class="d-flex align-items-center">
+                        <button class="btn btn-outline-success btn-sm me-3" (click)="triggerFileInput('front')">
+                          Choose File
+                        </button>
+                        <span class="text-muted small">{{frontImage?.name || 'No File Chosen'}}</span>
+                        <input 
+                          #frontInput type="file" class="d-none" accept="image/png, image/jpeg"
+                          (change)="onFileSelected($event, 'front')">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+                <!-- Upload Box 2 -->
+                <div class="upload-box">
+                  <div class="d-flex align-items-center p-3">
+                    <div class="placeholder-img me-3">
+                      <img src="assets/placeholder.png" alt="placeholder" class="img-fluid">
+                    </div>
+                    <div class="upload-content flex-grow-1">
+                      <p class="mb-2 text-muted small">Please upload reverse image, size less than 100KB</p>
+                      <div class="d-flex align-items-center">
+                        <button class="btn btn-outline-success btn-sm me-3" (click)="triggerFileInput('back')">
+                          Choose File
+                        </button>
+                        <span class="text-muted small">{{backImage?.name || 'No File Chosen'}}</span>
+                        <input 
+                          #backInput
+                          type="file" 
+                          class="d-none" 
+                          (change)="onFileSelected($event, 'back')" 
+                          accept="image/png, image/jpeg"
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+                <!-- Bottom Actions -->
+                <div class="d-flex flex-column mt-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <!-- Credit information -->
+                      <span class="badge bg-info me-2">Credits: {{userCredits}}</span>
+                      <span *ngIf="!hasCredits" class="text-danger">You need credits to process images</span>
+                    </div>
+                    <div class="d-flex">
+                      <button class="btn btn-outline-secondary me-3 d-flex align-items-center" (click)="openTipsModal(tipsModal)">
+                          Tips for Good Photos
+                          <img src="assets/infoIcon.jpg" alt="tips" class="ms-2" style="width: 20px; height: 20px;">
+                      </button>
+                      <button class="btn" [ngClass]="{'btn-success': hasCredits, 'btn-danger': !hasCredits}" 
+                              (click)="processImages()" 
+                              [disabled]="processBtnDisabled || !frontImage || !backImage">
+                          {{processBtnText}}
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Out of credits message -->
+                  <div *ngIf="!hasCredits" class="alert alert-warning mt-2 text-center">
+                    <strong>Out of credits!</strong> Please purchase more credits to continue using this feature.
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Right Side - Image Display -->
+            <div class="col-md-6" style="margin: 0;">
+              <div class="card">
+                <div class="card-body" style="padding: 5px;">
+                  <!-- Top Image - Composite -->
+                  <div class="coin-image-large mb-3" (click)="openImageModal(compositeModal, 'composite')" 
+                       style="height: 280px; margin: 0 !important;"
+                       [style.background-color]="imageStyles.backgroundColor">
+                    <img [src]="previewImages.large || 'assets/empty.jpg'"
+                         [style.filter]="imageStyles.filter"
+                         class="img-fluid w-100 h-100 object-fit-contain cursor-pointer boder-img">
+                  </div>
+
+                  <!-- Bottom Two Images -->
+                  <div class="row mb-4 g-3" style="margin-bottom: 5px !important;">
+                    <div class="col-6" style="margin-top: 5px; padding: 0;">
+                      <div class="coin-image-small boder-img" (click)="openImageModal(obverseModal, 'obverse')" 
+                           style="height: 280px;"
+                           [style.background-color]="imageStyles.backgroundColor">
+                        <img [src]="previewImages.small1 || 'assets/empty.jpg'"
+                             [style.filter]="imageStyles.filter"
+                             class="img-fluid w-100 h-100 object-fit-contain cursor-pointer">
+                      </div>
+                    </div>
+                    <div class="col-6" style="margin-top: 5px; padding-right: 0;">
+                      <div class="coin-image-small boder-img" (click)="openImageModal(reverseModal, 'reverse')" 
+                           style="height: 280px;"
+                           [style.background-color]="imageStyles.backgroundColor">
+                        <img [src]="previewImages.small2 || 'assets/empty.jpg'" 
+                             [style.filter]="imageStyles.filter"
+                             class="img-fluid w-100 h-100 object-fit-contain cursor-pointer">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="d-flex justify-content-center gap-3 mt-3">
+                <button class="btn btn-edit px-4" (click)="openAdvancedSettings(advancedSettingsModal)">
+                  Advanced Settings
+                </button>
+                <button class="btn btn-switch px-4" (click)="switchImages()">
+                  Switch Images
+                </button>
+                <button class="btn btn-success px-4" (click)="downloadAll()">
+                  Download All
+                </button>
+                <button class="btn btn-danger px-4" (click)="openErrorModal(errorModal)">
+                  Incorrect Results
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Tips Modal -->
+<ng-template #tipsModal let-modal>
+    <div class="modal-header border-0 pb-0">
+      <h3 class="modal-title fw-bold" id="modal-basic-title">Obtaining Successful Results</h3>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body pt-2">
+      <p class="text-secondary mb-4">
+        We're still working on the accuracy of our program. Here are some tips for getting a better result:
+      </p>
+      <ul class="tips-list text-secondary">
+        <li class="mb-3">
+          Try to take the photo as still as possible. Blurriness caused by camera shift may obstruct our program from running successfully.
+        </li>
+        <li class="mb-3">
+          Take the photo against an uniformly coloured background, white if possible.
+        </li>
+        <li class="mb-3">
+          Ensure that the obverse and reverse photos are as flat as possible (don't take photos on an angle - the rims and shadows may obstruct the program).
+        </li>
+        <li>
+          Our program is currently unable to process coins that are heavily irregular in shape or coins that are in third-party slabs
+        </li>
+      </ul>
+    </div>
+</ng-template>
+
+<!-- Error Report Modal -->
+<ng-template #errorModal let-modal>
+    <div class="modal-header bg-danger text-white">
+        <h4 class="modal-title">We're sorry the results were unsatisfactory</h4>
+        <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body bg-danger-subtle">
+        <p>We're still in the process of optimizing our program. As our models are provided more and more samples, it gets better and better.</p>
+        <p>Thank you for reporting this inadequate case. Our program will investigate the cause. A fully complete and correct obverse, reverse and composite photo will be sent to the email associated with your account.</p>
+        <button class="btn btn-danger" (click)="submitErrorCase(modal)">
+        Submit Error Case
+        </button>
+    </div>
+</ng-template>
+  
+<!-- Thank You Modal -->
+<ng-template #thankYouModal let-modal>
+    <div class="modal-header bg-danger-subtle border-0">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body bg-danger-subtle text-center py-5">
+        <h2 class="text-danger mb-0">Thank You for Helping Us Improve!</h2>
+    </div>
+</ng-template>
+
+<ng-template #compositeModal let-modal>
+    <div class="modal-header border-0">
+      <h3 class="modal-title">Generated Composite Picture</h3>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body bg-light p-4">
+      <div class="preview-image-container">
+        <img [src]="previewComposite || previewImages.large || 'assets/composite-picture.jpg'" class="preview-image" alt="Composite">
+      </div>
+      <div class="text-end mt-3">
+        <button class="btn btn-success rounded-pill px-4">Save</button>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #obverseModal let-modal>
+    <div class="modal-header border-0">
+      <h3 class="modal-title">Obverse Picture</h3>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body bg-light p-4">
+      <div class="preview-image-container">
+        <img [src]="previewImages.small1 || 'assets/placeholder-obverse.jpg'" class="preview-image" alt="Obverse">
+      </div>
+      <div class="text-end mt-3">
+        <button class="btn btn-success rounded-pill px-4">Save</button>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #reverseModal let-modal>
+    <div class="modal-header border-0">
+      <h3 class="modal-title">Reverse Picture</h3>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body bg-light p-4">
+      <div class="preview-image-container">
+        <img [src]="previewImages.small2 || 'assets/placeholder-reverse.jpg'" class="preview-image" alt="Reverse">
+      </div>
+      <div class="text-end mt-3">
+        <button class="btn btn-success rounded-pill px-4">Save</button>
+      </div>
+    </div>
+</ng-template>
+
+<!-- Advanced Settings Modal -->
+<ng-template #advancedSettingsModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Advanced Settings</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="settings-container">
+      <div class="format-preview">
+        <h5>Format Preview</h5>
+        
+        <div class="setting-group">
+          <label>Background Color</label>
+          <input type="color" class="form-control form-control-color" 
+                 [(ngModel)]="backgroundColor">
+        </div>
+
+        <div class="setting-group">
+          <label>Brightness: {{brightness}}%</label>
+          <input type="range" class="form-range" 
+                 [(ngModel)]="brightness" 
+                 min="0" max="200" value="100">
+        </div>
+
+        <div class="setting-group">
+          <label>Contrast: {{contrast}}%</label>
+          <input type="range" class="form-range" 
+                 [(ngModel)]="contrast" 
+                 min="0" max="200" value="100">
+        </div>
+
+        <div class="setting-group">
+          <label>Inner Margins</label>
+          <input type="range" class="form-range" 
+                 min="0" max="0.5" step="0.01" value="0"
+                 [(ngModel)]="innerMargin"
+                 (input)="updateInnerMargins()">
+        </div>
+
+        <div class="setting-group">
+          <label>Outer Margins</label>
+          <input type="range" class="form-range"
+                 min="0" max="0.5" step="0.01" value="0"
+                 [(ngModel)]="outerMargin"
+                 (input)="updateInnerMargins()">
+        </div>
+
+        <div class="setting-group">
+          <label>Vertical Margins</label>
+          <input type="range" class="form-range"
+                 min="0" max="0.5" step="0.01" value="0"
+                 [(ngModel)]="verticalMargin"
+                 (input)="updateInnerMargins()">
+        </div>
+      </div>
+
+      <div class="preview-image" [style.background-color]="backgroundColor">
+        <img [src]="previewComposite || previewImages.large || 'assets/empty.jpg'" 
+             class="img-fluid preview-composite"
+             [ngStyle]="getImageStyle()">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="applyChanges()">Apply Changes</button>
+    <div class="form-check mx-auto">
+      <input type="checkbox" class="form-check-input" id="saveDefault">
+      <label class="form-check-label" for="saveDefault">Save these Settings as Default</label>
+    </div>
+    <button type="button" class="btn btn-switch" (click)="applyMargins()">Apply Margin Changes</button>
+  </div>
+</ng-template>

@@ -1,0 +1,27 @@
+<div class="main-container">
+  <app-topcontainer></app-topcontainer>
+  <div class="page-container">
+    <div class="content-wrapper">
+      <div class="analytics-container">
+        <h2>Analytics Dashboard</h2>
+        <div class="analytics-cards">
+          <div class="analytics-card">
+            <h3>Start Button Clicks</h3>
+            <div class="metric">
+              <span class="number">{{buttonClicks}}</span>
+              <span class="label">Total Clicks</span>
+            </div>
+          </div>
+          <div class="analytics-card">
+            <h3>Unique IP Addresses</h3>
+            <div class="metric">
+              <span class="number">{{uniqueIPCount}}</span>
+              <span class="label">Total Unique IPs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-bottomcontainer></app-bottomcontainer>
+</div> 

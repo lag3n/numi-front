@@ -1,0 +1,175 @@
+<!-- trialpage.component.html -->
+<div class="trial-page-container">
+  <app-topcontainer></app-topcontainer>
+  
+  <div class="main-container">
+  <div class="page-container">
+    <div class="content-wrapper row">
+      <div class="col-12 row g-4" style="margin: 0;">
+        <!-- Left Side - Upload Area  -->
+        <div class="col-md-6" style="margin: 0;">
+          <div class="upload-section">
+            <!-- Trial Version Notice -->
+            <div class="alert alert-info mb-3">
+              <h4 class="alert-heading">Trial Version</h4>
+              <p>This is a trial version with the following limitations:</p>
+              <ul>
+                <li>Reduced resolution output</li>
+                <li>Watermarked images</li>
+                <li>Fixed margin settings</li>
+              </ul>
+              <hr>
+              <p class="mb-0">For full resolution, watermark-free results, please <a href="/signup" class="alert-link">register</a> or <a href="/login" class="alert-link">login</a>.</p>
+            </div>
+
+            <!-- Upload Box 1 -->
+            <div class="upload-box mb-3">
+              <div class="d-flex align-items-center p-3">
+                <div class="placeholder-img me-3">
+                  <img src="assets/placeholder.png" alt="placeholder" class="img-fluid">
+                </div>
+                <div class="upload-content flex-grow-1">
+                  <p class="mb-2 text-muted small">Please upload obverse (front) image of your coin</p>
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-success btn-sm me-3" (click)="triggerFileInput('front')">
+                      Choose File
+                    </button>
+                    <span class="text-muted small">{{frontImage?.name || 'No File Chosen'}}</span>
+                    <input 
+                      #frontInput
+                      type="file" 
+                      class="d-none" 
+                      accept="image/png, image/jpeg"
+                      (change)="onFileSelected($event, 'front')">
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Upload Box 2 -->
+            <div class="upload-box">
+              <div class="d-flex align-items-center p-3">
+                <div class="placeholder-img me-3">
+                  <img src="assets/placeholder.png" alt="placeholder" class="img-fluid">
+                </div>
+                <div class="upload-content flex-grow-1">
+                  <p class="mb-2 text-muted small">Please upload reverse (back) image of your coin</p>
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-success btn-sm me-3" (click)="triggerFileInput('back')">
+                      Choose File
+                    </button>
+                    <span class="text-muted small">{{backImage?.name || 'No File Chosen'}}</span>
+                    <input 
+                      #backInput
+                      type="file" 
+                      class="d-none" 
+                      accept="image/png, image/jpeg"
+                      (change)="onFileSelected($event, 'back')">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="d-flex justify-content-end align-items-center mt-3">
+              <button class="btn btn-success" (click)="processImages()" [disabled]="!frontImage && !backImage && processBtnDisabled">
+                {{processBtnText}}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side - Image Display -->
+        <div class="col-md-6" style="margin: 0;">
+          <div class="card">
+            <div class="card-body" style="padding: 5px;">
+              <!-- Top Image - Composite -->
+              <div class="coin-image-large mb-3" (click)="openImageModal(compositeModal, 'composite')" 
+                   style="height: 280px; margin: 0 !important;"
+                   [style.background-color]="imageStyles.backgroundColor">
+                <img [src]="previewImages.large || 'assets/empty.jpg'"
+                     [style.filter]="imageStyles.filter"
+                     class="img-fluid w-100 h-100 object-fit-contain cursor-pointer boder-img">
+              </div>
+
+              <!-- Bottom Two Images -->
+              <div class="row mb-4 g-3" style="margin-bottom: 5px !important;">
+                <div class="col-6" style="margin-top: 5px; padding: 0;">
+                  <div class="coin-image-small boder-img" (click)="openImageModal(obverseModal, 'obverse')" 
+                       style="height: 280px;"
+                       [style.background-color]="imageStyles.backgroundColor">
+                    <img [src]="previewImages.small1 || 'assets/empty.jpg'"
+                         [style.filter]="imageStyles.filter"
+                         class="img-fluid w-100 h-100 object-fit-contain cursor-pointer">
+                  </div>
+                </div>
+                <div class="col-6" style="margin-top: 5px; padding-right: 0;">
+                  <div class="coin-image-small boder-img" (click)="openImageModal(reverseModal, 'reverse')" 
+                       style="height: 280px;"
+                       [style.background-color]="imageStyles.backgroundColor">
+                    <img [src]="previewImages.small2 || 'assets/empty.jpg'"
+                         [style.filter]="imageStyles.filter"
+                         class="img-fluid w-100 h-100 object-fit-contain cursor-pointer">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <app-bottomcontainer></app-bottomcontainer>
+</div>
+
+<!-- Image Preview Modals -->
+<ng-template #compositeModal let-modal>
+  <div class="modal-header border-0">
+    <h3 class="modal-title">Composite Picture</h3>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body bg-light p-4">
+    <div class="preview-image-container">
+      <img [src]="previewImages.large || 'assets/placeholder-composite.jpg'" class="preview-image" alt="Composite">
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #obverseModal let-modal>
+  <div class="modal-header border-0">
+    <h3 class="modal-title">Obverse Picture</h3>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body bg-light p-4">
+    <div class="preview-image-container">
+      <img [src]="previewImages.small1 || 'assets/placeholder-obverse.jpg'" class="preview-image" alt="Obverse">
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #reverseModal let-modal>
+  <div class="modal-header border-0">
+    <h3 class="modal-title">Reverse Picture</h3>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body bg-light p-4">
+    <div class="preview-image-container">
+      <img [src]="previewImages.small2 || 'assets/placeholder-reverse.jpg'" class="preview-image" alt="Reverse">
+    </div>
+  </div>
+</ng-template>
+
+<!-- Error Modal -->
+<ng-template #errorModal let-modal>
+  <div class="modal-header border-0">
+    <h3 class="modal-title">Error</h3>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body bg-light p-4">
+    <p>An error occurred while processing your images. Please try again or contact support if the problem persists.</p>
+    <div class="text-end mt-3">
+      <button class="btn btn-primary rounded-pill px-4" (click)="modal.close()">OK</button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,46 @@
+:host {
+    display: block;
+  }
+  
+  .badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    
+    &.badge-success {
+      background-color: #28a745;
+      color: white;
+    }
+    
+    &.badge-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+  }
+  
+  kendo-grid {
+    .k-button {
+      margin-right: 8px;
+      
+      &.k-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+    }
+  }
+
+  .div-count {
+    font-size: 25px;
+    font-weight: bolder;
+    text-align: center;
+  }
+  .span-count {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    border: 1px solid #f0f0f0;
+    border-radius: 35px;
+    background-color: #f0f0f0;
+    line-height: 25px;
+    font-size: 25px;
+    padding: 20px 0px;
+  }

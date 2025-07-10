@@ -1,0 +1,44 @@
+.analytics-container {
+  padding: 2rem;
+  
+  h2 {
+    margin-bottom: 2rem;
+    color: #333;
+  }
+}
+
+.analytics-cards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.analytics-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 200px;
+  
+  h3 {
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  
+  .metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    .number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #2ecc71;
+    }
+    
+    .label {
+      color: #666;
+      margin-top: 0.5rem;
+    }
+  }
+} 
